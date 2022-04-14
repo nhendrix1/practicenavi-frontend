@@ -1,1 +1,76 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css';
+@import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css';
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
+@import '~flatpickr/dist/themes/light.css';
+
+body{
+    margin-top:20px;
+    background: #f5f5f5;
+}
+.card {
+    border: none;
+    -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);
+    margin-bottom: 30px;
+}
+
+ul {
+    list-style-type: none; /* Remove bullets */
+    padding: 15px; /* Remove padding */
+    margin: 0; /* Remove margins */
+  }
+
+.w-60 {
+    width: 60px;
+}
+.assignments-table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+  }
+  
+
+
+  .assignments-table-head, .assignments-table-column {
+    border: 1px solid black;
+    text-align: center;
+    padding: 15px;
+  }
+
+  tbody{
+    text-align: center;
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+  
+  tr {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width:100%;
+  }
+
+  td,th{
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0 0 10px;
+    font-weight: 600;
+}
+.social-links li a {
+    -webkit-border-radius: 50%;
+    background-color: rgba(89,206,181,.85);
+    border-radius: 50%;
+    color: #fff;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    width: 30px;
+    font-size: 12px;
+}
+a {
+    color: #707070;
+}

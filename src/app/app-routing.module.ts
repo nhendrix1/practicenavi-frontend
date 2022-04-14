@@ -1,10 +1,29 @@
+
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
+import { CoursesComponent} from "./courses.component";
+import { SingleCourseComponent } from './singleCourse.component';
+import { SingleAssignmentComponent } from './singleAssignment.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
-const routes: Routes = [];
 
+const routes: Routes = [
+  {path: '', component: CoursesComponent},
+  {path: 'home', component: CoursesComponent},
+  {path: 'course', component: SingleCourseComponent},
+  {path: 'assignment',component: SingleAssignmentComponent}
+
+];
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  declarations: [],
+  imports: [
+    RouterModule.forRoot(routes),
+    ReactiveFormsModule
+  ],
+  exports: [
+    RouterModule
+  ]
 })
 export class AppRoutingModule { }
+export const routingComponents =[CoursesComponent, SingleCourseComponent, SingleAssignmentComponent];
+

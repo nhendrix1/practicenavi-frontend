@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CourseNavi </title>
+  <meta charset="UTF-8">
+  <div id="fb-root"></div>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+   <button (click)="navigateToHome()" class="btn btn-primary" >Home</button>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+
+       <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" (click)="onOpenModal(null!, 'add')">Add Assignment <span class="sr-only">(current)</span></a>    
+          </li>
+          <li style="float:center">
+            <h1 style="color: #343a40">HardcodeFTWSTG</h1>
+           </li>
+          <li style="float:center">
+          <h1 style="color: white">{{course.name}}</h1>
+         </li>
+       </ul>
+       <form class="form-inline my-2 my-lg-0">
+          <input type="search" (ngModelChange)="searchAssignments(key.value)" #key="ngModel" ngModel
+           name="key" id="searchName" class="form-control mr-sm-2" placeholder="Search assignments..." required>
+       </form>
+
+  </nav>
+
+      <!-- <div class="col-6">
+         <a href=""><img src="{{course?.imageUrl}}" alt="" class="img-fluid rounded-circle w-60"></a>
+      </div> -->
+         <h3>Course Info</h3>
+         <ul >
+          <li >Instructor: {{course?.instructor}}</li>
+          <li >Semester: {{course?.semester}}</li>
+          <li >Hours : {{course?.hours}}</li>
+         </ul>
+
+         <h3>Grade</h3>
+         <ul >
+          <li ><h4>{{grades.letterGrade}}</h4></li>
+          <li >Percentage: {{grades.percent}} %</li>
+            <li >Points: {{grades.totalScoredPoints}} / {{grades.totalPointsPossible}}</li>
+       </ul>
+
+
+<h3 style="text-align: center">Assignments</h3>
+  <div class="container" id="main-container">
+   <table class="assignments-table">
+      <thead>
+         <th class="assignments-table-head"><h5>Name</h5></th>
+         <th class="assignments-table-head"><h5>Due Date</h5></th>
+         <th class="assignments-table-head"><h5>Grade</h5></th>
+         <th class="assignments-table-head"><h5> Edit / Delete</h5></th>
+         
+      </thead>
+      <tbody>
+          <tr *ngFor="let assignment of assignments;index as i;">
+            <td class="assignments-table-head"><button (click)="navigateToSingleAssignment(i)" class="btn btn-primary"><h5>{{assignment?.assignmentName}}</h5></button></td>
+            <td class="assignments-table-head"> <p class="m-0">{{assignment?.dueDate}}</p></td>
+            <td class ="assignment-table-head">{{assignment?.scoredPoints}}/{{assignment.possiblePoints}}</td>
+                <td class="assignments-table-head"><a (click)="onOpenModal(assignment, 'edit')" class="btn btn-primary tooltips" data-placement="left" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
+                <a (click)="onOpenModal(assignment, 'delete')" class="btn btn-secondary tooltips" data-placement="left" data-original-title="Delete"><i class="fa fa-times"></i></a></td>
+         </tr>
+      </tbody>
+   </table>
+  </div>
+
+  <br>
+  <br>
+  
+
+
+  <!-- Add Assignment Modal -->
+  <div class="modal fade" id="addAssignmentModal" tabindex="-1" role="dialog" aria-labelledby="addCourseModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="addCourseModalLabel">Add Assignment</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <form #addForm="ngForm" (ngSubmit)="onAddAssignment(addForm)">
+               <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" ngModel name="assignmentName"  class="form-control" id="assignmentName" aria-describedby="emailHelp" placeholder="Assignment Name">
+               </div>
+               <input [hidden]="true" ngModel="{{course.name}}" name="courseName" class="form-control" id="courseName" placeholder="ids">
+               <input [hidden]="true" ngModel="{{course.id}}" name="courseID" class="form-control" id="id" placeholder="ids">
+
+               <div class="form-group">
+                  <label for="email">Due Date</label>
+                  <input
+              class="form-control"
+              type="text"
+
+              mwlFlatpickr
+              [(ngModel)]="dueDate"
+              [ngModelOptions]="{standalone: true}"
+              (ngModelChange)="refresh.next()"
+              [altInput]="true"
+              [convertModelValue]="true"
+              [enableTime]="true"
+                  dateFormat="Y-m-dTH:i"
+                  altFormat="F j, Y H:i"
+                   placeholder="{{dueDate}}"
+                />
+               </div>
+               <div class="form-group">
+                  <label for="phone">Scored Points</label>
+                  <input type="text" ngModel name="scoredPoints" class="form-control" id="scoredPoints" placeholder="0">
+               </div>
+                <div class="form-group">
+                   <label for="phone">Possible Points</label>
+                   <input type="text" ngModel name="possiblePoints" class="form-control" id="PossiblePoints" placeholder="Put 0 if assignment is ungraded">
+                </div>
+                <div class="form-group">
+                   <label for="imageUrl">Description</label>
+                   <input type="text" ngModel name="description" class="form-control" id="imageUrl" placeholder="Description">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" id="add-assignment-form" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                  <button (click)="onAddAssignment(addForm.value)" data-dismiss="modal" class="btn btn-primary" >Save changes</button>
+               </div>
+            </form>
+         </div>
+      </div>
+    </div>
+    </div>
+  
+  <!-- Edit Modal -->
+  <div class="modal fade" id="updateAssignmentModal" tabindex="-1" role="dialog" aria-labelledby="courseEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="updateCourseModalLabel">Edit Assignment {{editAssignment?.assignmentName}}</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+             <form #editForm="ngForm">
+                <div class="form-group">
+                   <label for="name">Name</label>
+                   <input type="text" ngModel="{{editAssignment?.assignmentName}}" name="assignmentName" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Name">
+                </div>
+                <input type="hidden" ngModel="{{editAssignment?.id}}" name="id" class="form-control" id="id" placeholder="ids">
+                <input type="hidden" ngModel="{{editAssignment?.courseName}}" name="courseName" class="form-control" id="id" placeholder="ids">
+                <input type="hidden" ngModel="{{editAssignment?.courseID}}" name="courseID" class="form-control" id="id" placeholder="ids">
+                <div class="form-group">
+                  <label for="email">Due Date</label>
+                  <input
+                  class="form-control"
+                  type="text"
+                  mwlFlatpickr
+                  [(ngModel)]="dueDate"
+                  [ngModelOptions]="{standalone: true}"
+                  (ngModelChange)="refresh.next()"
+                  [altInput]="true"
+                  [convertModelValue]="true"
+                  [enableTime]="true"
+                      dateFormat="m-d-yTH:i"
+                      altFormat="F j, Y H:i"
+                       placeholder="Not set"
+                    />
+               </div>
+               <div class="form-group">
+                  <label for="phone">ScoredPoints</label>
+                  <input type="text" ngModel="{{editAssignment?.scoredPoints}}" name="scoredPoints" class="form-control" id="hours" name="hours" placeholder="hours">
+               </div>
+                <div class="form-group">
+                   <label for="phone">PossiblePoints</label>
+                   <input type="text" ngModel="{{editAssignment?.possiblePoints}}" name="possiblePoints" class="form-control" id="semester" placeholder="Semester">
+                </div>
+                <div class="form-group">
+                   <label for="imageUrl">Description</label>
+                   <input type="text" ngModel="{{editAssignment?.description}}" name="description" class="form-control" id="imageUrl" placeholder="Image URL">
+                </div>
+                <div class="modal-footer">
+                   <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                   <button (click)="onUpdateAssignment(editForm.value)" data-dismiss="modal" class="btn btn-primary" >Save changes</button>
+                </div>
+             </form>
+          </div>
+       </div>
+    </div>
+  </div>
+  
+  <!-- Delete Modal -->
+  <div class="modal fade" id="deleteAssignmentModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="deleteModelLabel">Delete Assignment</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+             <p>Are you sure you want to delete {{deleteAssignment?.assignmentName}}?</p>
+             <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button (click)="onDeleteAssignment(deleteAssignment)" class="btn btn-danger" data-dismiss="modal">Yes</button>
+             </div>
+          </div>
+       </div>
+    </div>
+  </div>
+
+  
+  <!-- Notification for assignments -->
+  <div *ngIf="assignments?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+  <div class="alert alert-info" role="alert">
+    <p>No assignments were found.</p>
+  </div>
+  </div>
+
+
+
